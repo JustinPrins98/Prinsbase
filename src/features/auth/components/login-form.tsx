@@ -83,6 +83,7 @@ export function LoginForm() {
                                         className="w-full"
                                         type="button"
                                         disabled={isPending}>
+                                        <Image alt="Github logo" src="/logos/github.svg" width={20} height={20} />
                                         Continue with GitHub
                                     </Button>
                                     <Button
@@ -90,53 +91,54 @@ export function LoginForm() {
                                         className="w-full"
                                         type="button"
                                         disabled={isPending}>
+                                        <Image alt="Google logo" src="/logos/google.svg" width={20} height={20} />
                                         Continue with Google
                                     </Button>
                                 </div>
                                 <div className="grid gap-6">
                                     <FormField
-                                    control={form.control}
-                                    name="email"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Email</FormLabel>
-                                            <FormControl>
-                                                <Input 
-                                                    type="email"
-                                                    placeholder="m@example.com"
-                                                    {...field}
+                                        control={form.control}
+                                        name="email"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Email</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        type="email"
+                                                        placeholder="m@example.com"
+                                                        {...field}
                                                     />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
                                     />
                                     <FormField
-                                    control={form.control}
-                                    name="password"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Password</FormLabel>
-                                            <FormControl>
-                                                <Input 
-                                                    type="password"
-                                                    placeholder="******"
-                                                    {...field}
+                                        control={form.control}
+                                        name="password"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Password</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        type="password"
+                                                        placeholder="******"
+                                                        {...field}
                                                     />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
                                     />
                                     <Button type="submit"
-                                    className="w-full" disabled={isPending}>
+                                        className="w-full" disabled={isPending}>
                                         Login
                                     </Button>
                                 </div>
                                 <div className="text-center text-sm">
                                     Don't have an account?{" "}
                                     <Link href="/signup" className="underline underline-offset-4">
-                                    Sign up
+                                        Sign up
                                     </Link>
                                 </div>
                             </div>

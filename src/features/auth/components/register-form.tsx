@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -31,10 +32,10 @@ const registerSchema = z.object({
     confirmPassword: z.string(),
 })
 
-.refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"]
-})
+    .refine((data) => data.password === data.confirmPassword, {
+        message: "Passwords don't match",
+        path: ["confirmPassword"]
+    })
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
@@ -53,20 +54,20 @@ export function RegisterForm() {
     const onSubmit = async (values: RegisterFormValues) => {
         await authClient.signUp.email(
             {
-            name: values.email,
-            email: values.email,
-            password: values.password,
-            callbackURL: "/",
-        },
-        {
-            onSuccess: () => {
-                router.push("/");
+                name: values.email,
+                email: values.email,
+                password: values.password,
+                callbackURL: "/",
             },
-            onError: (ctx) => {
-                toast.error(ctx.error.message);
+            {
+                onSuccess: () => {
+                    router.push("/");
+                },
+                onError: (ctx) => {
+                    toast.error(ctx.error.message);
+                }
             }
-        }
-    );
+        );
     }
 
     const isPending = form.formState.isSubmitting;
@@ -93,6 +94,7 @@ export function RegisterForm() {
                                         className="w-full"
                                         type="button"
                                         disabled={isPending}>
+                                        <Image alt="Github logo" src="/logos/github.svg" width={20} height={20} />
                                         Continue with GitHub
                                     </Button>
                                     <Button
@@ -100,70 +102,71 @@ export function RegisterForm() {
                                         className="w-full"
                                         type="button"
                                         disabled={isPending}>
+                                        <Image alt="Google logo" src="/logos/google.svg" width={20} height={20} />
                                         Continue with Google
                                     </Button>
                                 </div>
                                 <div className="grid gap-6">
                                     <FormField
-                                    control={form.control}
-                                    name="email"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Email</FormLabel>
-                                            <FormControl>
-                                                <Input 
-                                                    type="email"
-                                                    placeholder="m@example.com"
-                                                    {...field}
+                                        control={form.control}
+                                        name="email"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Email</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        type="email"
+                                                        placeholder="m@example.com"
+                                                        {...field}
                                                     />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
                                     />
                                     <FormField
-                                    control={form.control}
-                                    name="password"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Password</FormLabel>
-                                            <FormControl>
-                                                <Input 
-                                                    type="password"
-                                                    placeholder="******"
-                                                    {...field}
+                                        control={form.control}
+                                        name="password"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Password</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        type="password"
+                                                        placeholder="******"
+                                                        {...field}
                                                     />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
                                     />
-                                     <FormField
-                                    control={form.control}
-                                    name="confirmPassword"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Confirm password</FormLabel>
-                                            <FormControl>
-                                                <Input 
-                                                    type="password"
-                                                    placeholder="******"
-                                                    {...field}
+                                    <FormField
+                                        control={form.control}
+                                        name="confirmPassword"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Confirm password</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        type="password"
+                                                        placeholder="******"
+                                                        {...field}
                                                     />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
                                     />
                                     <Button type="submit"
-                                    className="w-full" disabled={isPending}>
+                                        className="w-full" disabled={isPending}>
                                         Sign up
                                     </Button>
                                 </div>
                                 <div className="text-center text-sm">
                                     Already have an account?{" "}
                                     <Link href="/login" className="underline underline-offset-4">
-                                    Login
+                                        Login
                                     </Link>
                                 </div>
                             </div>
