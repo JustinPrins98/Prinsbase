@@ -24,18 +24,25 @@ const t = initTRPC.context<TRPCContext>().create()
 export const createTRPCRouter = t.router
 export const createCallerFactory = t.createCallerFactory
 export const baseProcedure = t.procedure
-export const protectedProcedure = baseProcedure.use(async ({
-  ctx, next }) => {
-    const session = await auth.api.getSession({
-      headers: await headers(),
+export const protectedProcedure = baseProcedure.use(async (opts) => {
+  const { ctx, next } = opts;
+
+  const headersList = await headers();
+  const session = await auth.api.getSession({
+    headers: headersList,
+  });
+
+  if (!session) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Not authenticated"
     });
+  }
 
-    if (!session) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "Unauthorized"
-      })
-    }
-
-    return next({ctx: {...ctx, auth: session}});
-  })
+  return next({
+    ctx: {
+      ...ctx,
+      auth: session,
+    },
+  });
+});

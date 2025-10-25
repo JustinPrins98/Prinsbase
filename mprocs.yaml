@@ -1,0 +1,14 @@
+procs:
+  inngest:
+    cmd:
+      - powershell
+      - -NoProfile
+      - -Command
+      - npm run inngest:dev
+
+  next:
+    cmd:
+      - powershell
+      - -NoProfile
+      - -Command
+      - npm run dev
