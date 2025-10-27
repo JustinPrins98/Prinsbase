@@ -1,11 +1,14 @@
 // /trpc/routers/_app.ts
 import { inngest } from '@/inngest/client';
 import { createTRPCRouter, protectedProcedure } from '../init'
+import { TRPCError } from '@trpc/server';
 // Google Generative AI
 
 
 export const appRouter = createTRPCRouter({
   testAi: protectedProcedure.mutation(async () => {
+    // throw new TRPCError({ code: "BAD_REQUEST", message: "Something went wrong" })
+
     await inngest.send({
       name: "execute/ai",
     })
