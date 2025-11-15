@@ -5,6 +5,7 @@ import type { PrismaClient } from '@/generated/prisma'
 import { prisma } from '@/lib/db'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
+import { polarClient } from '@/lib/polar'
 
 export type TRPCContext = {
   prisma: PrismaClient
@@ -24,6 +25,7 @@ const t = initTRPC.context<TRPCContext>().create()
 export const createTRPCRouter = t.router
 export const createCallerFactory = t.createCallerFactory
 export const baseProcedure = t.procedure
+
 export const protectedProcedure = baseProcedure.use(async (opts) => {
   const { ctx, next } = opts;
 
@@ -46,3 +48,20 @@ export const protectedProcedure = baseProcedure.use(async (opts) => {
     },
   });
 });
+
+export const premiumProcedure = protectedProcedure.use(async ({ ctx, next }) => {
+  const customer = await polarClient.customers.getStateExternal({
+    externalId: ctx.auth.user.id,
+  });
+
+  if (
+    !customer.activeSubscriptions || customer.activeSubscriptions.length === 0
+  ) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Active subscription required",
+    })
+  }
+
+  return next({ ctx: { ...ctx, customer } })
+})
